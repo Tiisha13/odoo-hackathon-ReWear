@@ -10,7 +10,9 @@
         "test": "jest",
         "lint": "eslint src/**/*.ts",
         "lint:fix": "eslint src/**/*.ts --fix",
-        "cache:clear": "redis-cli FLUSHDB"
+        "cache:clear": "redis-cli FLUSHDB",
+        "seed": "ts-node scripts/seed.ts",
+        "seed:build": "npm run build && node dist/scripts/seed.js"
     },
     "keywords": [
         "clothing",

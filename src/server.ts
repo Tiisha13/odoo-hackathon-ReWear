@@ -18,6 +18,7 @@ import swapRoutes from './routes/swaps';
 import pointRoutes from './routes/points';
 import notificationRoutes from './routes/notifications';
 import adminRoutes from './routes/admin';
+import healthRoutes from './routes/health';
 
 const app = express();
 
@@ -62,6 +63,7 @@ app.use('/api/swaps', swapRoutes);
 app.use('/api/points', pointRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/health', healthRoutes);
 
 // Error handling
 app.use(notFound);

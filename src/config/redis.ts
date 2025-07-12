@@ -75,6 +75,10 @@ export class RedisClient {
   public async exists(key: string): Promise<number> {
     return await this.client.exists(key);
   }
+
+  public async ping(): Promise<string> {
+    return await this.client.ping();
+  }
 }
 
 export const redisClient = RedisClient.getInstance();
