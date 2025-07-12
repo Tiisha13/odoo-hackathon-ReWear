@@ -1,1 +1,1 @@
-# odoo-hackathon-clothloop
+# odoo-hackathon-ReWear
