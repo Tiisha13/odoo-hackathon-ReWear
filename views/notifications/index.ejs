@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - ReWear</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <%- include('../shared/header') %>
+    
+    <main class="flex-1">
+        <div class="container mx-auto px-4 py-8">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Notifications</h1>
+                <p class="text-gray-600">Stay updated with your ReWear activity</p>
+            </div>
+
+            <!-- Notification Actions -->
+            <div class="mb-6 flex justify-between items-center">
+                <div class="flex space-x-4">
+                    <a href="/notifications" class="px-4 py-2 rounded-full text-sm font-medium bg-primary-600 text-white">All</a>
+                    <a href="/notifications?type=swap" class="px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300">Swaps</a>
+                    <a href="/notifications?type=points" class="px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300">Points</a>
+                    <a href="/notifications?type=system" class="px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300">System</a>
+                </div>
+                <form action="/notifications/mark-all-read" method="POST" class="inline">
+                    <button type="submit" class="text-primary-600 hover:text-primary-700 text-sm font-medium">
+                        Mark all as read
+                    </button>
+                </form>
+            </div>
+
+            <!-- Notifications List -->
+            <div class="space-y-4">
+                <% if (typeof notifications !== 'undefined' && notifications && notifications.length > 0) { %>
+                    <% notifications.forEach(notification => { %>
+                        <div class="bg-white rounded-lg shadow-md p-6 <%= !notification.read ? 'border-l-4 border-primary-500' : '' %>">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-start space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-10 h-10 rounded-full flex items-center justify-center
+                                            <% if (notification.type === 'swap') { %>bg-blue-100 text-blue-600
+                                            <% } else if (notification.type === 'points') { %>bg-yellow-100 text-yellow-600
+                                            <% } else if (notification.type === 'system') { %>bg-green-100 text-green-600
+                                            <% } else { %>bg-gray-100 text-gray-600<% } %>">
+                                            <% if (notification.type === 'swap') { %>
+                                                <i class="fas fa-exchange-alt"></i>
+                                            <% } else if (notification.type === 'points') { %>
+                                                <i class="fas fa-coins"></i>
+                                            <% } else if (notification.type === 'system') { %>
+                                                <i class="fas fa-bell"></i>
+                                            <% } else { %>
+                                                <i class="fas fa-info"></i>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="font-semibold text-gray-900 mb-1">
+                                            <%= notification.title %>
+                                        </h3>
+                                        <p class="text-gray-700 mb-2">
+                                            <%= notification.message %>
+                                        </p>
+                                        <p class="text-sm text-gray-500">
+                                            <%= new Date(notification.createdAt).toLocaleString() %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <% if (!notification.read) { %>
+                                        <span class="w-3 h-3 bg-primary-500 rounded-full"></span>
+                                    <% } %>
+                                    <form action="/notifications/<%= notification._id %>/mark-read" method="POST" class="inline">
+                                        <button type="submit" class="text-gray-400 hover:text-gray-600">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </form>
+                                    <form action="/notifications/<%= notification._id %>/delete" method="POST" class="inline">
+                                        <button type="submit" class="text-red-400 hover:text-red-600"
+                                                onclick="return confirm('Delete this notification?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <!-- No Notifications -->
+                    <div class="bg-white rounded-lg shadow-md p-12 text-center">
+                        <div class="text-gray-400 mb-4">
+                            <i class="fas fa-bell text-6xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No notifications</h3>
+                        <p class="text-gray-500">You're all caught up! New notifications will appear here.</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <%- include('../shared/footer') %>
+</body>
+</html>

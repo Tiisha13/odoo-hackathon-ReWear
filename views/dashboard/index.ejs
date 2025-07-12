@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ReWear</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <%- include('../shared/header') %>
+    
+    <!-- Flash Messages -->
+    <% if (typeof success_msg !== 'undefined' && success_msg && success_msg.length > 0) { %>
+        <div id="success-alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mx-4 mt-4" role="alert">
+            <span class="block sm:inline"><%= success_msg %></span>
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3" onclick="this.parentElement.style.display='none'">
+                <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <title>Close</title>
+                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+                </svg>
+            </span>
+        </div>
+    <% } %>
+    
+    <% if (typeof error_msg !== 'undefined' && error_msg && error_msg.length > 0) { %>
+        <div id="error-alert" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mx-4 mt-4" role="alert">
+            <span class="block sm:inline"><%= error_msg %></span>
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3" onclick="this.parentElement.style.display='none'">
+                <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <title>Close</title>
+                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+                </svg>
+            </span>
+        </div>
+    <% } %>
+
+    <main class="flex-1">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Welcome Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                    Welcome back, <%= user.name %>! 👋
+                </h1>
+                <p class="text-gray-600">Here's your ReWear activity overview</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Total Items -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-tshirt text-blue-600"></i>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-500">Total Items</p>
+                            <p class="text-2xl font-semibold text-gray-900">
+                                <%= typeof stats !== 'undefined' ? stats.totalItems : 0 %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Available Items -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-check-circle text-green-600"></i>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-500">Available</p>
+                            <p class="text-2xl font-semibold text-gray-900">
+                                <%= typeof stats !== 'undefined' ? stats.availableItems : 0 %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Swaps -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-exchange-alt text-purple-600"></i>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-500">Total Swaps</p>
+                            <p class="text-2xl font-semibold text-gray-900">
+                                <%= typeof stats !== 'undefined' ? stats.totalSwaps : 0 %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Points -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-star text-yellow-600"></i>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-500">Points</p>
+                            <p class="text-2xl font-semibold text-gray-900">
+                                <%= typeof stats !== 'undefined' ? stats.points : user.points || 0 %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Quick Actions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <a href="/items/create" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-plus text-primary-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">Upload Item</h3>
+                            <p class="text-sm text-gray-500">Add a new item to swap</p>
+                        </div>
+                    </a>
+
+                    <a href="/browse" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-search text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">Browse Items</h3>
+                            <p class="text-sm text-gray-500">Find items to swap</p>
+                        </div>
+                    </a>
+
+                    <a href="/swaps" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-exchange-alt text-purple-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">My Swaps</h3>
+                            <p class="text-sm text-gray-500">Manage swap requests</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Recent Items -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Recent Items</h2>
+                        <a href="/items/my-items" class="text-primary-600 hover:text-primary-700 text-sm font-medium">View All</a>
+                    </div>
+                    
+                    <% if (typeof recentItems !== 'undefined' && recentItems && recentItems.length > 0) { %>
+                        <div class="space-y-4">
+                            <% recentItems.forEach(item => { %>
+                                <div class="flex items-center space-x-4 p-3 border border-gray-200 rounded-lg">
+                                    <div class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center">
+                                        <% if (item.images && item.images.length > 0) { %>
+                                            <img src="/uploads/items/<%= item.images[0] %>" 
+                                                 alt="<%= item.title %>" 
+                                                 class="w-full h-full object-cover rounded-lg">
+                                        <% } else { %>
+                                            <i class="fas fa-image text-gray-400"></i>
+                                        <% } %>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="font-medium text-gray-900 truncate"><%= item.title %></h3>
+                                        <p class="text-sm text-gray-500"><%= item.category %> • <%= item.condition %></p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                            <%= item.available ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
+                                            <%= item.available ? 'Available' : 'Not Available' %>
+                                        </span>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% } else { %>
+                        <div class="text-center py-8">
+                            <div class="text-gray-400 mb-4">
+                                <i class="fas fa-tshirt text-4xl"></i>
+                            </div>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">No items yet</h3>
+                            <p class="text-gray-500 mb-4">Upload your first item to get started!</p>
+                            <a href="/items/create" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm transition-colors">
+                                Upload Item
+                            </a>
+                        </div>
+                    <% } %>
+                </div>
+
+                <!-- Recent Swaps -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Recent Swaps</h2>
+                        <a href="/swaps" class="text-primary-600 hover:text-primary-700 text-sm font-medium">View All</a>
+                    </div>
+                    
+                    <% if (typeof recentSwaps !== 'undefined' && recentSwaps && recentSwaps.length > 0) { %>
+                        <div class="space-y-4">
+                            <% recentSwaps.forEach(swap => { %>
+                                <div class="flex items-center space-x-4 p-3 border border-gray-200 rounded-lg">
+                                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-exchange-alt text-purple-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="font-medium text-gray-900">Swap Request</h3>
+                                        <p class="text-sm text-gray-500">
+                                            Status: <span class="capitalize"><%= swap.status %></span>
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                            <% if (swap.status === 'completed') { %>bg-green-100 text-green-800
+                                            <% } else if (swap.status === 'pending') { %>bg-yellow-100 text-yellow-800
+                                            <% } else if (swap.status === 'accepted') { %>bg-blue-100 text-blue-800
+                                            <% } else { %>bg-red-100 text-red-800<% } %>">
+                                            <%= swap.status.charAt(0).toUpperCase() + swap.status.slice(1) %>
+                                        </span>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% } else { %>
+                        <div class="text-center py-8">
+                            <div class="text-gray-400 mb-4">
+                                <i class="fas fa-exchange-alt text-4xl"></i>
+                            </div>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">No swaps yet</h3>
+                            <p class="text-gray-500 mb-4">Start browsing items to make your first swap!</p>
+                            <a href="/browse" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm transition-colors">
+                                Browse Items
+                            </a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('../shared/footer') %>
+
+    <script>
+        // Auto-hide alerts after 5 seconds
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('#success-alert, #error-alert');
+            alerts.forEach(alert => {
+                if (alert) {
+                    alert.style.transition = 'opacity 0.5s';
+                    alert.style.opacity = '0';
+                    setTimeout(() => alert.remove(), 500);
+                }
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

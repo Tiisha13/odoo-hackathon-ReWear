@@ -35,7 +35,7 @@ export class AuthController {
 
       // Generate token
       const token = TokenGenerator.generateToken({
-        userId: String(req.user._id),
+        userId: String(user._id),
         email: user.email,
         role: user.role
       });
@@ -43,7 +43,7 @@ export class AuthController {
       // Cache user data
       const userWithoutPassword = { ...user.toObject() };
       delete (userWithoutPassword as any).password;
-      await CacheHelper.cacheUser(String(req.user._id), userWithoutPassword);
+      await CacheHelper.cacheUser(String(user._id), userWithoutPassword);
 
       res.status(201).json({
         message: 'User registered successfully',
@@ -76,7 +76,7 @@ export class AuthController {
 
       // Generate token
       const token = TokenGenerator.generateToken({
-        userId: String(req.user._id),
+        userId: String(user._id),
         email: user.email,
         role: user.role
       });
@@ -84,7 +84,7 @@ export class AuthController {
       // Cache user data
       const userWithoutPassword = { ...user.toObject() };
       delete (userWithoutPassword as any).password;
-      await CacheHelper.cacheUser(String(req.user._id), userWithoutPassword);
+      await CacheHelper.cacheUser(String(user._id), userWithoutPassword);
 
       res.json({
         message: 'Login successful',

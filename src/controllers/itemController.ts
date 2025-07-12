@@ -265,4 +265,105 @@ export class ItemController {
       res.status(500).json({ message: 'Internal server error' });
     }
   }
+
+  static async browseItems(req: Request, res: Response): Promise<void> {
+    try {
+      const {
+        search,
+        category,
+        size,
+        condition,
+        minPrice,
+        maxPrice,
+        sortBy = 'createdAt',
+        sortOrder = 'desc',
+        page = 1,
+        limit = 12
+      } = req.query;
+
+      // Build filter object
+      const filter: any = {
+        available: true,
+        approved: true
+      };
+
+      // Search filter
+      if (search) {
+        filter.$or = [
+          { title: { $regex: search, $options: 'i' } },
+          { description: { $regex: search, $options: 'i' } },
+          { tags: { $in: [new RegExp(search as string, 'i')] } }
+        ];
+      }
+
+      // Category filter
+      if (category && category !== '') {
+        filter.category = category;
+      }
+
+      // Size filter
+      if (size && size !== '') {
+        filter.size = size;
+      }
+
+      // Condition filter
+      if (condition && condition !== '') {
+        filter.condition = condition;
+      }
+
+      // Sort options
+      const sortOptions: any = {};
+      sortOptions[sortBy as string] = sortOrder === 'asc' ? 1 : -1;
+
+      // Pagination
+      const pageNum = parseInt(page as string) || 1;
+      const limitNum = parseInt(limit as string) || 12;
+      const skip = (pageNum - 1) * limitNum;
+
+      // Get items with pagination
+      const items = await Item.find(filter)
+        .populate('owner', 'name email')
+        .sort(sortOptions)
+        .skip(skip)
+        .limit(limitNum)
+        .lean();
+
+      // Get total count for pagination
+      const totalItems = await Item.countDocuments(filter);
+      const totalPages = Math.ceil(totalItems / limitNum);
+
+      // Get unique categories, sizes, and conditions for filters
+      const categories = await Item.distinct('category', { available: true, approved: true });
+      const sizes = await Item.distinct('size', { available: true, approved: true });
+      const conditions = await Item.distinct('condition', { available: true, approved: true });
+
+      res.json({
+        items,
+        pagination: {
+          currentPage: pageNum,
+          totalPages,
+          totalItems,
+          limit: limitNum,
+          hasNextPage: pageNum < totalPages,
+          hasPrevPage: pageNum > 1
+        },
+        filters: {
+          categories: categories.sort(),
+          sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'One Size'].filter(s => sizes.includes(s)),
+          conditions: (['new', 'like-new', 'good', 'fair'] as const).filter(c => conditions.includes(c))
+        },
+        currentFilters: {
+          search: search || '',
+          category: category || '',
+          size: size || '',
+          condition: condition || '',
+          sortBy: sortBy || 'createdAt',
+          sortOrder: sortOrder || 'desc'
+        }
+      });
+    } catch (error) {
+      console.error('Browse items error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
 }

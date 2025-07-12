@@ -1,0 +1,138 @@
+<nav class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <!-- Logo and brand -->
+            <div class="flex items-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <div class="bg-primary-500 text-white rounded-lg p-2">
+                        <i class="fas fa-recycle text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-gray-900">ReWear</span>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/browse" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors <%= page === 'browse' ? 'text-primary-600 bg-primary-50' : '' %>">
+                    Browse Items
+                </a>
+                <% if (user) { %>
+                    <a href="/items/create" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors <%= page === 'create-item' ? 'text-primary-600 bg-primary-50' : '' %>">
+                        Upload Item
+                    </a>
+                    <a href="/dashboard" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors <%= page === 'dashboard' ? 'text-primary-600 bg-primary-50' : '' %>">
+                        Dashboard
+                    </a>
+                    <a href="/swaps" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors <%= page === 'swaps' ? 'text-primary-600 bg-primary-50' : '' %>">
+                        My Swaps
+                    </a>
+                <% } %>
+            </div>
+
+            <!-- User menu / Auth buttons -->
+            <div class="hidden md:flex items-center space-x-4">
+                <% if (user) { %>
+                    <!-- Notifications -->
+                    <a href="/notifications" class="relative text-gray-700 hover:text-primary-600 p-2 rounded-full transition-colors">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </a>
+
+                    <!-- Points balance -->
+                    <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <i class="fas fa-coins mr-1"></i>
+                        <%= user.points || 0 %> pts
+                    </div>
+
+                    <!-- User dropdown -->
+                    <div class="relative">
+                        <button id="user-menu-button" onclick="toggleUserDropdown()" class="flex items-center space-x-2 text-gray-700 hover:text-primary-600 focus:outline-none">
+                            <img class="h-8 w-8 rounded-full object-cover" src="<%= user.avatar || '/uploads/avatars/default.png' %>" alt="<%= user.name %>">
+                            <span class="text-sm font-medium"><%= user.name %></span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        
+                        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                            <a href="/dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                            </a>
+                            <a href="/points/history" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-history mr-2"></i>Points History
+                            </a>
+                            <% if (user.role === 'admin') { %>
+                                <a href="/admin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-shield-alt mr-2"></i>Admin Panel
+                                </a>
+                            <% } %>
+                            <div class="border-t border-gray-100"></div>
+                            <form action="/auth/logout" method="POST" class="block">
+                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <a href="/login" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        Login
+                    </a>
+                    <a href="/register" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                        Register
+                    </a>
+                <% } %>
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="md:hidden flex items-center">
+                <button onclick="toggleMobileMenu()" class="text-gray-700 hover:text-primary-600 focus:outline-none focus:text-primary-600">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+            <a href="/browse" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md text-base font-medium">
+                Browse Items
+            </a>
+            <% if (user) { %>
+                <a href="/items/create" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md text-base font-medium">
+                    Upload Item
+                </a>
+                <a href="/dashboard" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md text-base font-medium">
+                    Dashboard
+                </a>
+                <a href="/swaps" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md text-base font-medium">
+                    My Swaps
+                </a>
+                <a href="/notifications" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md text-base font-medium">
+                    Notifications
+                </a>
+                <div class="border-t border-gray-200 my-2"></div>
+                <div class="px-3 py-2">
+                    <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium inline-block">
+                        <i class="fas fa-coins mr-1"></i>
+                        <%= user.points || 0 %> pts
+                    </div>
+                </div>
+                <% if (user.role === 'admin') { %>
+                    <a href="/admin" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md text-base font-medium">
+                        Admin Panel
+                    </a>
+                <% } %>
+                <a href="/api/auth/logout" class="block px-3 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md text-base font-medium">
+                    Logout
+                </a>
+            <% } else { %>
+                <a href="/login" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md text-base font-medium">
+                    Login
+                </a>
+                <a href="/register" class="block px-3 py-2 bg-primary-600 text-white hover:bg-primary-700 rounded-md text-base font-medium">
+                    Register
+                </a>
+            <% } %>
+        </div>
+    </div>
+</nav>

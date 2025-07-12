@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Item - ReWear</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <%- include('../shared/header') %>
+    
+    <main class="flex-1">
+        <div class="container mx-auto px-4 py-8">
+            <div class="max-w-2xl mx-auto">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Upload Item</h1>
+                    <p class="text-gray-600">Share your fashion items with the ReWear community</p>
+                </div>
+
+                <!-- Flash Messages -->
+                <% if (typeof messages !== 'undefined' && messages.error) { %>
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+                        <%= messages.error %>
+                    </div>
+                <% } %>
+                <% if (typeof messages !== 'undefined' && messages.success) { %>
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+                        <%= messages.success %>
+                    </div>
+                <% } %>
+
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <form action="/items/create" method="POST" enctype="multipart/form-data" class="space-y-6">
+                        <!-- Images Upload -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Item Images *</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-400 transition-colors">
+                                <input type="file" name="images" id="images" multiple accept="image/*" class="hidden" onchange="previewImages(this)">
+                                <label for="images" class="cursor-pointer">
+                                    <div class="text-gray-400 mb-4">
+                                        <i class="fas fa-cloud-upload-alt text-4xl"></i>
+                                    </div>
+                                    <p class="text-gray-600 font-medium">Click to upload images</p>
+                                    <p class="text-sm text-gray-500">PNG, JPG up to 10MB each (max 5 images)</p>
+                                </label>
+                            </div>
+                            <div id="image-preview" class="mt-4 grid grid-cols-2 md:grid-cols-5 gap-4"></div>
+                        </div>
+
+                        <!-- Title -->
+                        <div>
+                            <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Item Title *</label>
+                            <input type="text" name="title" id="title" required 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                   placeholder="e.g., Vintage Levi's Denim Jacket">
+                        </div>
+
+                        <!-- Description -->
+                        <div>
+                            <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description *</label>
+                            <textarea name="description" id="description" rows="4" required 
+                                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                      placeholder="Describe your item's condition, style, and any special details..."></textarea>
+                        </div>
+
+                        <!-- Category and Size -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                                <select name="category" id="category" required 
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                                    <option value="">Select Category</option>
+                                    <option value="shirts">Shirts</option>
+                                    <option value="pants">Pants</option>
+                                    <option value="dresses">Dresses</option>
+                                    <option value="jackets">Jackets</option>
+                                    <option value="shoes">Shoes</option>
+                                    <option value="accessories">Accessories</option>
+                                    <option value="sweaters">Sweaters</option>
+                                    <option value="skirts">Skirts</option>
+                                    <option value="shorts">Shorts</option>
+                                    <option value="hoodies">Hoodies</option>
+                                    <option value="coats">Coats</option>
+                                    <option value="activewear">Activewear</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="size" class="block text-sm font-medium text-gray-700 mb-2">Size *</label>
+                                <select name="size" id="size" required 
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                                    <option value="">Select Size</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="XXL">XXL</option>
+                                    <option value="One Size">One Size</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Condition -->
+                        <div>
+                            <label for="condition" class="block text-sm font-medium text-gray-700 mb-2">Condition *</label>
+                            <select name="condition" id="condition" required 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                                <option value="">Select Condition</option>
+                                <option value="new">New - Never worn</option>
+                                <option value="like-new">Like New - Worn once or twice</option>
+                                <option value="good">Good - Gently used with minor wear</option>
+                                <option value="fair">Fair - Visible wear but still functional</option>
+                            </select>
+                        </div>
+
+                        <!-- Tags -->
+                        <div>
+                            <label for="tags" class="block text-sm font-medium text-gray-700 mb-2">Tags (Optional)</label>
+                            <input type="text" name="tags" id="tags" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                   placeholder="e.g., vintage, designer, summer (separate with commas)">
+                            <p class="text-sm text-gray-500 mt-1">Add tags to help others find your item</p>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="flex justify-end space-x-4">
+                            <a href="/dashboard" 
+                               class="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
+                                Cancel
+                            </a>
+                            <button type="submit" 
+                                    class="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-md transition-colors">
+                                Upload Item
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tips -->
+                <div class="mt-8 bg-blue-50 rounded-lg p-6">
+                    <h3 class="font-semibold text-blue-900 mb-3">💡 Tips for better visibility:</h3>
+                    <ul class="text-blue-800 space-y-1 text-sm">
+                        <li>• Use clear, well-lit photos from multiple angles</li>
+                        <li>• Write detailed descriptions about fit and condition</li>
+                        <li>• Add relevant tags to help others discover your items</li>
+                        <li>• Be honest about wear and condition</li>
+                        <li>• Upload items you'd be excited to receive in a swap</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('../shared/footer') %>
+
+    <script>
+        function previewImages(input) {
+            const preview = document.getElementById('image-preview');
+            preview.innerHTML = '';
+            
+            if (input.files) {
+                Array.from(input.files).forEach((file, index) => {
+                    if (index < 5) { // Max 5 images
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const div = document.createElement('div');
+                            div.className = 'relative';
+                            div.innerHTML = `
+                                <img src="${e.target.result}" class="w-full h-24 object-cover rounded-lg">
+                                <button type="button" onclick="removeImage(${index})" 
+                                        class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 text-xs">×</button>
+                            `;
+                            preview.appendChild(div);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        }
+
+        function removeImage(index) {
+            // This is a simple implementation - for production you'd want to properly manage file removal
+            const preview = document.getElementById('image-preview');
+            const images = preview.children;
+            if (images[index]) {
+                images[index].remove();
+            }
+        }
+
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const images = document.getElementById('images').files;
+            if (images.length === 0) {
+                e.preventDefault();
+                alert('Please upload at least one image');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>
+

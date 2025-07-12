@@ -34,6 +34,7 @@ const createItemValidation = [
 ];
 
 // Routes
+router.get('/browse', optionalAuth, ItemController.browseItems);
 router.post('/', authenticateToken, uploadItemImages, validateRequest(createItemValidation), ItemController.createItem);
 router.get('/popular', cacheMiddleware('popular', 1800), ItemController.getPopularItems);
 router.get('/search', optionalAuth, cacheMiddleware('search', 600), ItemController.searchItems);

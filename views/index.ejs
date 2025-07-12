@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReWear - Sustainable Fashion Exchange</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <%- include('./shared/header') %>
+    
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-primary-50 to-blue-100 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+                    Give Your Clothes a 
+                    <span class="text-primary-600">Second Life</span>
+                </h1>
+                <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                    Join ReWear's sustainable fashion community. Swap clothes, earn points, and make eco-friendly choices while discovering unique pieces from fellow fashion lovers.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/browse" class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors inline-flex items-center justify-center">
+                        <i class="fas fa-search mr-2"></i>
+                        Browse Items
+                    </a>
+                    <a href="/register" class="bg-white hover:bg-gray-50 text-primary-600 border-2 border-primary-600 px-8 py-4 rounded-lg text-lg font-semibold transition-colors inline-flex items-center justify-center">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Start Swapping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-green-50 rounded-lg p-8">
+                    <div class="text-4xl font-bold text-green-600 mb-2">
+                        <i class="fas fa-recycle mb-4"></i>
+                        <div><%= typeof stats !== 'undefined' && stats ? stats.swaps || 0 : 0 %></div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Items Swapped</h3>
+                    <p class="text-gray-600">Clothes given a new life through our community</p>
+                </div>
+                
+                <div class="bg-blue-50 rounded-lg p-8">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">
+                        <i class="fas fa-users mb-4"></i>
+                        <div><%= typeof stats !== 'undefined' && stats ? stats.users || 0 : 0 %></div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Active Members</h3>
+                    <p class="text-gray-600">Fashion lovers making sustainable choices</p>
+                </div>
+                
+                <div class="bg-yellow-50 rounded-lg p-8">
+                    <div class="text-4xl font-bold text-yellow-600 mb-2">
+                        <i class="fas fa-tshirt mb-4"></i>
+                        <div><%= typeof stats !== 'undefined' && stats ? stats.items || 0 : 0 %></div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Items Available</h3>
+                    <p class="text-gray-600">Unique pieces waiting for new owners</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Items Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Featured Items</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Discover unique pieces from our community. Each item has been lovingly cared for and is ready for its next adventure.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <% if (typeof featuredItems !== 'undefined' && featuredItems && featuredItems.length > 0) { %>
+                    <%
+                    featuredItems.forEach(item => {
+                    %>
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                            <div class="h-64 bg-gray-200 relative">
+                                <% if (item.images && item.images.length > 0) { %>
+                                    <img src="/uploads/items/<%= item.images[0] %>" 
+                                         alt="<%= item.title %>" 
+                                         class="w-full h-full object-cover"
+                                         onerror="this.parentElement.innerHTML='<div class=\'h-full flex items-center justify-center text-gray-400\'><i class=\'fas fa-image text-4xl\'></i></div>'">
+                                <% } else { %>
+                                    <div class="h-full flex items-center justify-center text-gray-400">
+                                        <i class="fas fa-tshirt text-6xl"></i>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <%
+                                    let conditionClasses = 'text-xs font-medium px-2.5 py-0.5 rounded ';
+                                    if (item.condition === 'new') {
+                                        conditionClasses += 'bg-green-100 text-green-800';
+                                    } else if (item.condition === 'like-new') {
+                                        conditionClasses += 'bg-blue-100 text-blue-800';
+                                    } else if (item.condition === 'good') {
+                                        conditionClasses += 'bg-yellow-100 text-yellow-800';
+                                    } else {
+                                        conditionClasses += 'bg-gray-100 text-gray-800';
+                                    }
+                                    %>
+                                    <span class="<%= conditionClasses %>">
+                                        <%= item.condition ? item.condition.charAt(0).toUpperCase() + item.condition.slice(1).replace('-', ' ') : 'Good' %>
+                                    </span>
+                                    <span class="text-sm text-gray-500">Size <%= item.size %></span>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2"><%= item.title %></h3>
+                                <p class="text-gray-600 text-sm mb-4"><%= item.description.length > 60 ? item.description.substring(0, 60) + '...' : item.description %></p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-user text-primary-600 text-xs"></i>
+                                        </div>
+                                        <span class="text-sm text-gray-600">
+                                            <%= item.owner && item.owner.name ? item.owner.name : 'Anonymous' %>
+                                        </span>
+                                    </div>
+                                    <a href="/items/<%= item._id %>" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm transition-colors">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <!-- Placeholder when no items available -->
+                    <div class="col-span-full text-center py-12">
+                        <div class="text-gray-400 mb-4">
+                            <i class="fas fa-tshirt text-6xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No items available yet</h3>
+                        <p class="text-gray-500 mb-4">Be the first to list an item in our community!</p>
+                        <% if (typeof user !== 'undefined' && user) { %>
+                            <a href="/items/create" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-md transition-colors">
+                                List Your First Item
+                            </a>
+                        <% } else { %>
+                            <a href="/register" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-md transition-colors">
+                                Join ReWear
+                            </a>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+            
+            <div class="text-center">
+                <a href="/browse" class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors inline-flex items-center">
+                    <i class="fas fa-th-large mr-2"></i>
+                    View All Items
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">How ReWear Works</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Join our sustainable fashion community in three simple steps and start making a positive impact on the environment.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="text-center">
+                    <div class="bg-primary-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-camera text-3xl text-primary-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">1. Upload Your Items</h3>
+                    <p class="text-gray-600">
+                        Take photos of clothes you no longer wear and upload them to our platform. Add descriptions and set your preferences for swapping or points.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center">
+                    <div class="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-exchange-alt text-3xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">2. Swap or Redeem</h3>
+                    <p class="text-gray-600">
+                        Browse items from other members and propose swaps, or use your earned points to redeem items you love. Connect with fellow fashion enthusiasts.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center">
+                    <div class="bg-yellow-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-heart text-3xl text-yellow-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">3. Enjoy & Earn</h3>
+                    <p class="text-gray-600">
+                        Enjoy your new-to-you items and earn points for every successful swap. Build your sustainable wardrobe while helping the planet.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">What Our Community Says</h2>
+                <p class="text-lg text-gray-600">
+                    Join thousands of satisfied members who are making sustainable fashion choices with ReWear.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <img class="h-12 w-12 rounded-full object-cover" src="/uploads/avatars/default.png" alt="Sarah">
+                        <div class="ml-4">
+                            <h4 class="text-lg font-semibold text-gray-900">Sarah Johnson</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        "ReWear has completely changed how I think about fashion. I've found amazing pieces while clearing out my closet responsibly. The community is so welcoming!"
+                    </p>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <img class="h-12 w-12 rounded-full object-cover" src="/uploads/avatars/default.png" alt="Mike">
+                        <div class="ml-4">
+                            <h4 class="text-lg font-semibold text-gray-900">Mike Chen</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        "The points system is genius! I've earned enough points to get some really nice items just by sharing clothes I wasn't wearing anymore."
+                    </p>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <img class="h-12 w-12 rounded-full object-cover" src="/uploads/avatars/default.png" alt="Emma">
+                        <div class="ml-4">
+                            <h4 class="text-lg font-semibold text-gray-900">Emma Williams</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        "I love the environmental impact I'm making. Plus, I've discovered styles I never would have tried otherwise. It's like having a endless wardrobe!"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-primary-600">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-white mb-4">
+                Ready to Start Your Sustainable Fashion Journey?
+            </h2>
+            <p class="text-xl text-primary-100 mb-8">
+                Join ReWear today and discover a world of unique fashion while making a positive impact on the environment.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/register" class="bg-white hover:bg-gray-100 text-primary-600 px-8 py-4 rounded-lg text-lg font-semibold transition-colors inline-flex items-center justify-center">
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Join ReWear Now
+                </a>
+                <a href="/browse" class="bg-primary-700 hover:bg-primary-800 text-white border-2 border-primary-400 px-8 py-4 rounded-lg text-lg font-semibold transition-colors inline-flex items-center justify-center">
+                    <i class="fas fa-search mr-2"></i>
+                    Browse Items
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <%- include('./shared/footer') %>
+</body>
+</html>

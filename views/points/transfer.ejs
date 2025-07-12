@@ -1,0 +1,444 @@
+<% const content = `
+<div class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl font-bold mb-4">Transfer Points</h1>
+            <p class="text-xl text-yellow-100 max-w-2xl mx-auto">
+                Share your points with friends and family members in the ReWear community.
+            </p>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Current Balance Card -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Your Current Balance</h2>
+                <div class="text-6xl font-bold text-yellow-600 mb-4">
+                    <i class="fas fa-coins mr-4"></i>
+                    <%= user?.points || 0 %>
+                </div>
+                <p class="text-gray-600">
+                    You can transfer up to <span class="font-semibold"><%= Math.floor((user?.points || 0) * 0.8) %> points</span> 
+                    (80% of your current balance)
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Transfer Form -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-6">
+                        <i class="fas fa-paper-plane text-yellow-600 mr-2"></i>
+                        Send Points
+                    </h3>
+
+                    <form class="space-y-6" action="/api/points/transfer" method="POST">
+                        <!-- Recipient -->
+                        <div>
+                            <label for="recipient" class="block text-sm font-medium text-gray-700 mb-2">
+                                Recipient *
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-user text-gray-400"></i>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    id="recipient" 
+                                    name="recipient" 
+                                    required 
+                                    class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                                    placeholder="Enter username or email address"
+                                >
+                                <div id="recipient-suggestions" class="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg mt-1 hidden">
+                                    <!-- Dynamic suggestions will appear here -->
+                                </div>
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500">
+                                Enter the username or email of the person you want to send points to
+                            </p>
+                        </div>
+
+                        <!-- Amount -->
+                        <div>
+                            <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">
+                                Amount *
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-coins text-gray-400"></i>
+                                </div>
+                                <input 
+                                    type="number" 
+                                    id="amount" 
+                                    name="amount" 
+                                    required 
+                                    min="1" 
+                                    max="<%= Math.floor((user?.points || 0) * 0.8) %>"
+                                    class="block w-full pl-10 pr-20 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                                    placeholder="0"
+                                >
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 text-sm">points</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 flex justify-between text-sm">
+                                <span class="text-gray-500">
+                                    Maximum: <%= Math.floor((user?.points || 0) * 0.8) %> points
+                                </span>
+                                <span class="text-gray-500">
+                                    Transfer fee: <span class="font-medium">1 point</span>
+                                </span>
+                            </div>
+                            
+                            <!-- Quick Amount Buttons -->
+                            <div class="mt-3 flex space-x-2">
+                                <button type="button" class="quick-amount px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-sm transition-colors" data-amount="5">
+                                    5 pts
+                                </button>
+                                <button type="button" class="quick-amount px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-sm transition-colors" data-amount="10">
+                                    10 pts
+                                </button>
+                                <button type="button" class="quick-amount px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-sm transition-colors" data-amount="25">
+                                    25 pts
+                                </button>
+                                <button type="button" class="quick-amount px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-sm transition-colors" data-amount="50">
+                                    50 pts
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Message -->
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700 mb-2">
+                                Message (Optional)
+                            </label>
+                            <textarea 
+                                id="message" 
+                                name="message" 
+                                rows="3" 
+                                maxlength="200"
+                                class="block w-full px-3 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                                placeholder="Add a personal message with your point transfer..."
+                            ></textarea>
+                            <p class="mt-1 text-sm text-gray-500">
+                                <span id="message-count">0</span>/200 characters
+                            </p>
+                        </div>
+
+                        <!-- Transfer Summary -->
+                        <div id="transfer-summary" class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 hidden">
+                            <h4 class="text-sm font-medium text-yellow-800 mb-2">Transfer Summary</h4>
+                            <div class="text-sm text-yellow-700 space-y-1">
+                                <div class="flex justify-between">
+                                    <span>Amount to send:</span>
+                                    <span id="send-amount">0 points</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Transfer fee:</span>
+                                    <span>1 point</span>
+                                </div>
+                                <div class="flex justify-between font-medium border-t border-yellow-300 pt-1">
+                                    <span>Total deducted:</span>
+                                    <span id="total-deducted">1 point</span>
+                                </div>
+                                <div class="flex justify-between font-medium">
+                                    <span>Remaining balance:</span>
+                                    <span id="remaining-balance"><%= user?.points || 0 %> points</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security -->
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                                Confirm with Password *
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-lock text-gray-400"></i>
+                                </div>
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    name="password" 
+                                    required 
+                                    class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                                    placeholder="Enter your password to confirm"
+                                >
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500">
+                                For security purposes, please confirm your password
+                            </p>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-4">
+                            <button 
+                                type="submit" 
+                                id="submit-btn"
+                                disabled
+                                class="w-full bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-6 py-3 rounded-md font-semibold transition-colors"
+                            >
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Send Points
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Transfer Tips -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                        Transfer Tips
+                    </h3>
+                    <ul class="text-sm text-gray-600 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                            <span>Transfers are instant and irreversible</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                            <span>You can transfer up to 80% of your balance</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                            <span>There's a 1 point transfer fee</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                            <span>Recipients get notifications immediately</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                            <span>All transfers are logged for security</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Recent Recipients -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Recipients</h3>
+                    <div class="space-y-3">
+                        <button class="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-colors recent-recipient" data-username="sarah.johnson">
+                            <div class="flex items-center space-x-3">
+                                <img class="h-8 w-8 rounded-full" src="/uploads/avatars/default.png" alt="">
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                    <div class="text-xs text-gray-500">Last transfer: 5 points</div>
+                                </div>
+                            </div>
+                        </button>
+                        
+                        <button class="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-colors recent-recipient" data-username="mike.chen">
+                            <div class="flex items-center space-x-3">
+                                <img class="h-8 w-8 rounded-full" src="/uploads/avatars/default.png" alt="">
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Mike Chen</div>
+                                    <div class="text-xs text-gray-500">Last transfer: 10 points</div>
+                                </div>
+                            </div>
+                        </button>
+                        
+                        <button class="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-colors recent-recipient" data-username="emma.wilson">
+                            <div class="flex items-center space-x-3">
+                                <img class="h-8 w-8 rounded-full" src="/uploads/avatars/default.png" alt="">
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Emma Wilson</div>
+                                    <div class="text-xs text-gray-500">Last transfer: 25 points</div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <a href="/points/history" class="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                            <i class="fas fa-history text-blue-600 mr-3"></i>
+                            <span>View Transfer History</span>
+                        </a>
+                        <a href="/dashboard" class="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                            <i class="fas fa-tachometer-alt text-green-600 mr-3"></i>
+                            <span>Back to Dashboard</span>
+                        </a>
+                        <a href="/browse" class="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                            <i class="fas fa-shopping-bag text-purple-600 mr-3"></i>
+                            <span>Spend Points on Items</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const userPoints = <%- JSON.stringify(user?.points || 0) %>;
+const maxTransferAmount = Math.floor(userPoints * 0.8);
+
+// Quick amount buttons
+document.querySelectorAll('.quick-amount').forEach(button => {
+    button.addEventListener('click', () => {
+        const amount = parseInt(button.getAttribute('data-amount'));
+        if (amount <= maxTransferAmount) {
+            document.getElementById('amount').value = amount;
+            updateTransferSummary();
+        }
+    });
+});
+
+// Recent recipients
+document.querySelectorAll('.recent-recipient').forEach(button => {
+    button.addEventListener('click', () => {
+        const username = button.getAttribute('data-username');
+        document.getElementById('recipient').value = username;
+        validateForm();
+    });
+});
+
+// Amount input validation and summary update
+document.getElementById('amount').addEventListener('input', function() {
+    const amount = parseInt(this.value) || 0;
+    
+    if (amount > maxTransferAmount) {
+        this.value = maxTransferAmount;
+    }
+    
+    updateTransferSummary();
+    validateForm();
+});
+
+// Message character counter
+document.getElementById('message').addEventListener('input', function() {
+    const count = this.value.length;
+    document.getElementById('message-count').textContent = count;
+    
+    if (count > 200) {
+        this.value = this.value.substring(0, 200);
+        document.getElementById('message-count').textContent = 200;
+    }
+});
+
+// Form validation
+function validateForm() {
+    const recipient = document.getElementById('recipient').value.trim();
+    const amount = parseInt(document.getElementById('amount').value) || 0;
+    const password = document.getElementById('password').value.trim();
+    const submitBtn = document.getElementById('submit-btn');
+    
+    const isValid = recipient.length > 0 && amount > 0 && amount <= maxTransferAmount && password.length > 0;
+    
+    submitBtn.disabled = !isValid;
+    
+    if (isValid) {
+        submitBtn.classList.remove('bg-gray-300', 'cursor-not-allowed');
+        submitBtn.classList.add('bg-yellow-600', 'hover:bg-yellow-700');
+    } else {
+        submitBtn.classList.add('bg-gray-300', 'cursor-not-allowed');
+        submitBtn.classList.remove('bg-yellow-600', 'hover:bg-yellow-700');
+    }
+}
+
+// Update transfer summary
+function updateTransferSummary() {
+    const amount = parseInt(document.getElementById('amount').value) || 0;
+    const totalDeducted = amount + 1; // 1 point transfer fee
+    const remainingBalance = userPoints - totalDeducted;
+    
+    document.getElementById('send-amount').textContent = amount + ' points';
+    document.getElementById('total-deducted').textContent = totalDeducted + ' points';
+    document.getElementById('remaining-balance').textContent = Math.max(0, remainingBalance) + ' points';
+    
+    const summaryDiv = document.getElementById('transfer-summary');
+    if (amount > 0) {
+        summaryDiv.classList.remove('hidden');
+    } else {
+        summaryDiv.classList.add('hidden');
+    }
+}
+
+// Add event listeners for validation
+document.getElementById('recipient').addEventListener('input', validateForm);
+document.getElementById('password').addEventListener('input', validateForm);
+
+// Form submission
+document.querySelector('form').addEventListener('submit', function(e) {
+    const amount = parseInt(document.getElementById('amount').value) || 0;
+    
+    if (amount + 1 > userPoints) {
+        e.preventDefault();
+        alert('Insufficient balance for this transfer including the 1 point fee.');
+        return false;
+    }
+    
+    if (!confirm('Are you sure you want to send ' + amount + ' points? This action cannot be undone.')) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Simple recipient search (in a real app, this would be an API call)
+document.getElementById('recipient').addEventListener('input', function() {
+    const query = this.value.toLowerCase();
+    const suggestions = document.getElementById('recipient-suggestions');
+    
+    if (query.length > 2) {
+        // Mock data - in real app, this would be from an API
+        const mockUsers = [
+            { username: 'sarah.johnson', name: 'Sarah Johnson', email: 'sarah@example.com' },
+            { username: 'mike.chen', name: 'Mike Chen', email: 'mike@example.com' },
+            { username: 'emma.wilson', name: 'Emma Wilson', email: 'emma@example.com' }
+        ];
+        
+        const filtered = mockUsers.filter(user => 
+            user.username.includes(query) || 
+            user.name.toLowerCase().includes(query) || 
+            user.email.includes(query)
+        );
+        
+        if (filtered.length > 0) {
+            suggestions.innerHTML = filtered.map(user => 
+                '<div class="p-2 hover:bg-gray-100 cursor-pointer user-suggestion" data-username="' + user.username + '">' +
+                '<div class="font-medium">' + user.name + '</div>' +
+                '<div class="text-sm text-gray-600">@' + user.username + '</div>' +
+                '</div>'
+            ).join('');
+            
+            suggestions.classList.remove('hidden');
+            
+            // Add click handlers to suggestions
+            suggestions.querySelectorAll('.user-suggestion').forEach(suggestion => {
+                suggestion.addEventListener('click', () => {
+                    this.value = suggestion.getAttribute('data-username');
+                    suggestions.classList.add('hidden');
+                    validateForm();
+                });
+            });
+        } else {
+            suggestions.classList.add('hidden');
+        }
+    } else {
+        suggestions.classList.add('hidden');
+    }
+});
+
+// Hide suggestions when clicking outside
+document.addEventListener('click', function(e) {
+    if (!document.getElementById('recipient').contains(e.target)) {
+        document.getElementById('recipient-suggestions').classList.add('hidden');
+    }
+});
+</script>
+` %>
+
+<%- include('../shared/layout', { body: content }) %>

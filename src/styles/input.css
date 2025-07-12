@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS for line-clamp utilities */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Custom primary color utilities */
+.text-primary-50 { color: #f0f9ff; }
+.text-primary-100 { color: #e0f2fe; }
+.text-primary-600 { color: #0284c7; }
+.text-primary-700 { color: #0369a1; }
+
+.bg-primary-50 { background-color: #f0f9ff; }
+.bg-primary-600 { background-color: #0284c7; }
+.bg-primary-700 { background-color: #0369a1; }
+
+.border-primary-500 { border-color: #0ea5e9; }
+
+.ring-primary-500 { --tw-ring-color: #0ea5e9; }
+
+.focus\:ring-primary-500:focus { --tw-ring-color: #0ea5e9; }
+.focus\:border-primary-500:focus { border-color: #0ea5e9; }
+
+.hover\:bg-primary-700:hover { background-color: #0369a1; }
+.hover\:text-primary-600:hover { color: #0284c7; }
+.hover\:border-primary-500:hover { border-color: #0ea5e9; }

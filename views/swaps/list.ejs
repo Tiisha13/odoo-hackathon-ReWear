@@ -1,0 +1,457 @@
+<% const content = `
+<div class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl font-bold mb-4">My Swaps</h1>
+                <p class="text-xl text-green-100 max-w-2xl mx-auto">
+                    Track all your swap activities, from pending proposals to completed exchanges.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="bg-blue-100 rounded-lg p-3">
+                        <i class="fas fa-clock text-blue-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Pending</p>
+                        <p class="text-2xl font-bold text-gray-900">3</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="bg-yellow-100 rounded-lg p-3">
+                        <i class="fas fa-handshake text-yellow-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">In Progress</p>
+                        <p class="text-2xl font-bold text-gray-900">2</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="bg-green-100 rounded-lg p-3">
+                        <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Completed</p>
+                        <p class="text-2xl font-bold text-gray-900">23</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="bg-red-100 rounded-lg p-3">
+                        <i class="fas fa-times-circle text-red-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Cancelled</p>
+                        <p class="text-2xl font-bold text-gray-900">1</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters and Controls -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <label class="text-sm font-medium text-gray-700">Filter by:</label>
+                        <select class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                            <option value="">All Swaps</option>
+                            <option value="pending">Pending</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2">
+                        <label class="text-sm font-medium text-gray-700">Sort by:</label>
+                        <select class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="status">Status</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="text-sm text-gray-600">
+                    Showing <span class="font-semibold">29 swaps</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Swaps List -->
+        <div class="space-y-6">
+            <!-- Pending Swap -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Swap with Emma Wilson</h3>
+                            <p class="text-sm text-gray-600">Proposal sent • March 15, 2024</p>
+                        </div>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-clock mr-1"></i>
+                            Pending
+                        </span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Your Item -->
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">You're offering:</h4>
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="w-16 h-16 bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-tshirt text-2xl text-gray-400"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-900">Vintage Denim Jacket</h5>
+                                    <p class="text-sm text-gray-600">Size M • Like New</p>
+                                    <p class="text-sm text-primary-600 font-medium">Worth 25 points</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Their Item -->
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">You're requesting:</h4>
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-blue-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-female text-2xl text-gray-400"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-900">Bohemian Maxi Dress</h5>
+                                    <p class="text-sm text-gray-600">Size M • Excellent</p>
+                                    <p class="text-sm text-primary-600 font-medium">Worth 28 points</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Message -->
+                    <div class="mb-6">
+                        <h4 class="text-sm font-medium text-gray-700 mb-2">Your message:</h4>
+                        <div class="bg-blue-50 border-l-4 border-blue-400 p-3 rounded">
+                            <p class="text-sm text-blue-800">
+                                "Hi Emma! I love your bohemian dress and think it would be perfect for my summer wardrobe. My vintage denim jacket is in excellent condition and would look great on you. Let me know if you're interested!"
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <div class="text-sm text-gray-600">
+                            <i class="fas fa-user mr-1"></i>
+                            Waiting for Emma's response
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                <i class="fas fa-comment mr-1"></i>
+                                Send Message
+                            </button>
+                            <button class="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                <i class="fas fa-times mr-1"></i>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- In Progress Swap -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Swap with Mike Chen</h3>
+                            <p class="text-sm text-gray-600">Accepted • March 12, 2024</p>
+                        </div>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-handshake mr-1"></i>
+                            In Progress
+                        </span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Your Item -->
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">You're giving:</h4>
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="w-16 h-16 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-shoe-prints text-2xl text-gray-400"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-900">Designer Sneakers</h5>
+                                    <p class="text-sm text-gray-600">Size 8 • Excellent</p>
+                                    <p class="text-sm text-primary-600 font-medium">Worth 35 points</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Their Item -->
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">You're receiving:</h4>
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-running text-2xl text-gray-400"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-900">Athletic Running Shoes</h5>
+                                    <p class="text-sm text-gray-600">Size 8 • Good</p>
+                                    <p class="text-sm text-primary-600 font-medium">Worth 30 points</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Steps -->
+                    <div class="mb-6">
+                        <h4 class="text-sm font-medium text-gray-700 mb-3">Swap Progress:</h4>
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center">
+                                <div class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="ml-2 text-sm text-green-600 font-medium">Proposal Accepted</span>
+                            </div>
+                            <div class="flex-1 h-px bg-green-500"></div>
+                            <div class="flex items-center">
+                                <div class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="ml-2 text-sm text-green-600 font-medium">Details Exchanged</span>
+                            </div>
+                            <div class="flex-1 h-px bg-gray-300"></div>
+                            <div class="flex items-center">
+                                <div class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                                    3
+                                </div>
+                                <span class="ml-2 text-sm text-blue-600 font-medium">Meet & Exchange</span>
+                            </div>
+                            <div class="flex-1 h-px bg-gray-300"></div>
+                            <div class="flex items-center">
+                                <div class="bg-gray-300 text-gray-600 rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                                    4
+                                </div>
+                                <span class="ml-2 text-sm text-gray-500">Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Meeting Details -->
+                    <div class="mb-6 bg-blue-50 rounded-lg p-4">
+                        <h4 class="text-sm font-medium text-blue-900 mb-2">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            Meeting Details
+                        </h4>
+                        <div class="text-sm text-blue-800">
+                            <p><strong>When:</strong> Tomorrow, March 16, 2024 at 3:00 PM</p>
+                            <p><strong>Where:</strong> Central Park Café, 123 Main St</p>
+                            <p><strong>Contact:</strong> Mike Chen - (555) 123-4567</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <div class="text-sm text-gray-600">
+                            <i class="fas fa-clock mr-1"></i>
+                            Meeting scheduled for tomorrow
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                <i class="fas fa-comment mr-1"></i>
+                                Message Mike
+                            </button>
+                            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                <i class="fas fa-check mr-1"></i>
+                                Mark as Complete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Swap -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Swap with Sarah Johnson</h3>
+                            <p class="text-sm text-gray-600">Completed • March 8, 2024</p>
+                        </div>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-check-circle mr-1"></i>
+                            Completed
+                        </span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Your Item -->
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">You gave:</h4>
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-vest text-2xl text-gray-400"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-900">Black Leather Jacket</h5>
+                                    <p class="text-sm text-gray-600">Size L • Good</p>
+                                    <p class="text-sm text-green-600 font-medium">+15 points earned</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Their Item -->
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">You received:</h4>
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="w-16 h-16 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-tshirt text-2xl text-gray-400"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-900">Winter Wool Coat</h5>
+                                    <p class="text-sm text-gray-600">Size L • Like New</p>
+                                    <p class="text-sm text-green-600 font-medium">Great condition!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Rating -->
+                    <div class="mb-4">
+                        <h4 class="text-sm font-medium text-gray-700 mb-2">Your rating:</h4>
+                        <div class="flex items-center space-x-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-sm text-gray-600">"Great swap! Item was exactly as described."</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <div class="text-sm text-gray-600">
+                            <i class="fas fa-check-circle mr-1 text-green-500"></i>
+                            Successfully completed 5 days ago
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                <i class="fas fa-redo mr-1"></i>
+                                Swap Again
+                            </button>
+                            <button class="bg-primary-100 hover:bg-primary-200 text-primary-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                <i class="fas fa-download mr-1"></i>
+                                Download Receipt
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cancelled Swap -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden opacity-75">
+                <div class="p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Swap with Alex Smith</h3>
+                            <p class="text-sm text-gray-600">Cancelled • March 5, 2024</p>
+                        </div>
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-times-circle mr-1"></i>
+                            Cancelled
+                        </span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                        <!-- Your Item -->
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">You offered:</h4>
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="w-16 h-16 bg-gradient-to-br from-red-100 to-pink-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-gem text-2xl text-gray-400"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-900">Vintage Necklace</h5>
+                                    <p class="text-sm text-gray-600">One Size • Like New</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Their Item -->
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">You requested:</h4>
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-watch text-2xl text-gray-400"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-900">Classic Watch</h5>
+                                    <p class="text-sm text-gray-600">One Size • Good</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-red-50 border-l-4 border-red-400 p-3 rounded mb-4">
+                        <p class="text-sm text-red-800">
+                            <strong>Reason:</strong> Other user decided not to proceed with the swap.
+                        </p>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <div class="text-sm text-gray-600">
+                            <i class="fas fa-times-circle mr-1 text-red-500"></i>
+                            Cancelled 10 days ago
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                <i class="fas fa-search mr-1"></i>
+                                Find Similar Items
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-8 flex justify-center">
+            <nav class="flex items-center space-x-2">
+                <button class="px-3 py-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="px-3 py-2 bg-primary-600 text-white rounded-md">1</button>
+                <button class="px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md">2</button>
+                <button class="px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md">3</button>
+                <span class="px-3 py-2 text-gray-500">...</span>
+                <button class="px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md">8</button>
+                <button class="px-3 py-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </nav>
+        </div>
+    </div>
+</div>
+` %>
+
+<%- include('../shared/layout', { body: content }) %>

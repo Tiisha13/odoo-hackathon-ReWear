@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Swaps - ReWear</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <%- include('../shared/header') %>
+    
+    <!-- Flash Messages -->
+    <% if (typeof success_msg !== 'undefined' && success_msg && success_msg.length > 0) { %>
+        <div id="success-alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mx-4 mt-4" role="alert">
+            <span class="block sm:inline"><%= success_msg %></span>
+        </div>
+    <% } %>
+    
+    <% if (typeof error_msg !== 'undefined' && error_msg && error_msg.length > 0) { %>
+        <div id="error-alert" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mx-4 mt-4" role="alert">
+            <span class="block sm:inline"><%= error_msg %></span>
+        </div>
+    <% } %>
+
+    <main class="flex-1">
+        <div class="container mx-auto px-4 py-8">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">My Swaps</h1>
+                <p class="text-gray-600">Manage your swap requests and track exchanges</p>
+            </div>
+
+            <!-- Swap Status Filters -->
+            <div class="mb-6">
+                <div class="flex flex-wrap gap-2">
+                    <a href="/swaps" class="px-4 py-2 rounded-full text-sm font-medium bg-primary-600 text-white">All</a>
+                    <a href="/swaps?status=pending" class="px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300">Pending</a>
+                    <a href="/swaps?status=accepted" class="px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300">Accepted</a>
+                    <a href="/swaps?status=completed" class="px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300">Completed</a>
+                    <a href="/swaps?status=rejected" class="px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300">Rejected</a>
+                </div>
+            </div>
+
+            <!-- Swaps List -->
+            <div class="space-y-6">
+                <% if (typeof swaps !== 'undefined' && swaps && swaps.length > 0) { %>
+                    <% swaps.forEach(swap => { %>
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-4 mb-4">
+                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                                            <% if (swap.requestedItem && swap.requestedItem.images && swap.requestedItem.images.length > 0) { %>
+                                                <img src="/uploads/items/<%= swap.requestedItem.images[0] %>" 
+                                                     alt="<%= swap.requestedItem.title %>" 
+                                                     class="w-full h-full object-cover">
+                                            <% } else { %>
+                                                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                                    <i class="fas fa-image"></i>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg text-gray-900">
+                                                Swap Request for: <%= swap.requestedItem ? swap.requestedItem.title : 'Unknown Item' %>
+                                            </h3>
+                                            <p class="text-gray-600">
+                                                <%= swap.type === 'item' ? 'Item Exchange' : 'Points Exchange' %>
+                                            </p>
+                                            <p class="text-sm text-gray-500">
+                                                Created: <%= new Date(swap.createdAt).toLocaleDateString() %>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <h4 class="font-medium text-gray-900 mb-2">Your Offer:</h4>
+                                            <% if (swap.type === 'item' && swap.offeredItem) { %>
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-10 h-10 bg-gray-200 rounded overflow-hidden">
+                                                        <% if (swap.offeredItem.images && swap.offeredItem.images.length > 0) { %>
+                                                            <img src="/uploads/items/<%= swap.offeredItem.images[0] %>" 
+                                                                 alt="<%= swap.offeredItem.title %>" 
+                                                                 class="w-full h-full object-cover">
+                                                        <% } else { %>
+                                                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                                                <i class="fas fa-image text-xs"></i>
+                                                            </div>
+                                                        <% } %>
+                                                    </div>
+                                                    <div>
+                                                        <p class="font-medium"><%= swap.offeredItem.title %></p>
+                                                        <p class="text-sm text-gray-500"><%= swap.offeredItem.category %></p>
+                                                    </div>
+                                                </div>
+                                            <% } else if (swap.type === 'points') { %>
+                                                <div class="flex items-center space-x-2">
+                                                    <i class="fas fa-coins text-yellow-600"></i>
+                                                    <span class="font-medium"><%= swap.pointsOffered || 0 %> Points</span>
+                                                </div>
+                                            <% } %>
+                                        </div>
+
+                                        <div>
+                                            <h4 class="font-medium text-gray-900 mb-2">Owner:</h4>
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                                    <i class="fas fa-user text-primary-600 text-sm"></i>
+                                                </div>
+                                                <span><%= swap.owner ? swap.owner.name : 'Unknown User' %></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <% if (swap.message) { %>
+                                        <div class="mb-4">
+                                            <h4 class="font-medium text-gray-900 mb-2">Message:</h4>
+                                            <p class="text-gray-700 bg-gray-50 p-3 rounded-lg"><%= swap.message %></p>
+                                        </div>
+                                    <% } %>
+                                </div>
+
+                                <div class="ml-6 text-right">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                                        <% if (swap.status === 'pending') { %>bg-yellow-100 text-yellow-800
+                                        <% } else if (swap.status === 'accepted') { %>bg-blue-100 text-blue-800
+                                        <% } else if (swap.status === 'completed') { %>bg-green-100 text-green-800
+                                        <% } else if (swap.status === 'rejected') { %>bg-red-100 text-red-800
+                                        <% } else { %>bg-gray-100 text-gray-800<% } %>">
+                                        <%= swap.status.charAt(0).toUpperCase() + swap.status.slice(1) %>
+                                    </span>
+
+                                    <div class="mt-4 space-y-2">
+                                        <% if (swap.status === 'pending') { %>
+                                            <form action="/swaps/<%= swap._id %>/cancel" method="POST" class="inline">
+                                                <button type="submit" 
+                                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm transition-colors"
+                                                        onclick="return confirm('Are you sure you want to cancel this swap?')">
+                                                    Cancel
+                                                </button>
+                                            </form>
+                                        <% } else if (swap.status === 'accepted') { %>
+                                            <form action="/swaps/<%= swap._id %>/complete" method="POST" class="inline">
+                                                <button type="submit" 
+                                                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm transition-colors"
+                                                        onclick="return confirm('Mark this swap as completed?')">
+                                                    Mark Complete
+                                                </button>
+                                            </form>
+                                        <% } %>
+                                        <div>
+                                            <a href="/swaps/<%= swap._id %>" 
+                                               class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm transition-colors">
+                                                View Details
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <!-- No Swaps -->
+                    <div class="bg-white rounded-lg shadow-md p-12 text-center">
+                        <div class="text-gray-400 mb-4">
+                            <i class="fas fa-exchange-alt text-6xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No swaps found</h3>
+                        <p class="text-gray-500 mb-6">You haven't made any swap requests yet. Start browsing items to make your first swap!</p>
+                        <a href="/browse" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md transition-colors">
+                            Browse Items
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <%- include('../shared/footer') %>
+
+    <script>
+        // Auto-hide alerts after 5 seconds
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('#success-alert, #error-alert');
+            alerts.forEach(alert => {
+                if (alert) {
+                    alert.style.transition = 'opacity 0.5s';
+                    alert.style.opacity = '0';
+                    setTimeout(() => alert.remove(), 500);
+                }
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

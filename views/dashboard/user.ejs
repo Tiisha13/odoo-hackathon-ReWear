@@ -1,0 +1,529 @@
+<% const content = `
+<div class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <div class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+                    <p class="text-gray-600">Welcome back! Here's what's happening with your items.</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full font-medium">
+                        <i class="fas fa-coins mr-2"></i>
+                        <%= user?.points || 0 %> Points
+                    </div>
+                    <a href="/items/create" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition-colors">
+                        <i class="fas fa-plus mr-2"></i>
+                        Add Item
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="bg-blue-100 rounded-lg p-3">
+                        <i class="fas fa-tshirt text-blue-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Active Listings</p>
+                        <p class="text-2xl font-bold text-gray-900">12</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="bg-green-100 rounded-lg p-3">
+                        <i class="fas fa-exchange-alt text-green-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Total Swaps</p>
+                        <p class="text-2xl font-bold text-gray-900">23</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="bg-yellow-100 rounded-lg p-3">
+                        <i class="fas fa-coins text-yellow-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Points Earned</p>
+                        <p class="text-2xl font-bold text-gray-900">156</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="bg-purple-100 rounded-lg p-3">
+                        <i class="fas fa-heart text-purple-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Favorites</p>
+                        <p class="text-2xl font-bold text-gray-900">8</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Dashboard -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Tabs Navigation -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="border-b border-gray-200">
+                        <nav class="-mb-px flex">
+                            <button class="tab-button active px-6 py-3 text-sm font-medium border-b-2 border-primary-600 text-primary-600" data-tab="listings">
+                                My Listings
+                            </button>
+                            <button class="tab-button px-6 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="swaps">
+                                Active Swaps
+                            </button>
+                            <button class="tab-button px-6 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="history">
+                                History
+                            </button>
+                            <button class="tab-button px-6 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="favorites">
+                                Favorites
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="p-6">
+                        <!-- My Listings Tab -->
+                        <div id="listings-tab" class="tab-content">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-lg font-semibold text-gray-900">My Listings</h3>
+                                <div class="flex items-center space-x-2">
+                                    <select class="px-3 py-1 border border-gray-300 rounded-md text-sm">
+                                        <option>All Status</option>
+                                        <option>Active</option>
+                                        <option>Pending</option>
+                                        <option>Sold</option>
+                                    </select>
+                                    <button class="text-gray-500 hover:text-gray-700">
+                                        <i class="fas fa-filter"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <!-- Listing Item 1 -->
+                                <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-tshirt text-2xl text-gray-400"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-900">Vintage Denim Jacket</h4>
+                                        <p class="text-sm text-gray-600">Listed 2 days ago • Size M</p>
+                                        <div class="flex items-center space-x-2 mt-1">
+                                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Active</span>
+                                            <span class="text-xs text-gray-500">3 interested</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-primary-600 font-semibold">25 pts</div>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <button class="text-gray-400 hover:text-gray-600">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-gray-400 hover:text-red-600">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Listing Item 2 -->
+                                <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-blue-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-female text-2xl text-gray-400"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-900">Summer Floral Dress</h4>
+                                        <p class="text-sm text-gray-600">Listed 1 week ago • Size S</p>
+                                        <div class="flex items-center space-x-2 mt-1">
+                                            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">Pending</span>
+                                            <span class="text-xs text-gray-500">Swap in progress</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-primary-600 font-semibold">18 pts</div>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <button class="text-gray-400 hover:text-gray-600">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-gray-400 hover:text-red-600">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Listing Item 3 -->
+                                <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-shoe-prints text-2xl text-gray-400"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-900">Designer Sneakers</h4>
+                                        <p class="text-sm text-gray-600">Listed 3 days ago • Size 8</p>
+                                        <div class="flex items-center space-x-2 mt-1">
+                                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Active</span>
+                                            <span class="text-xs text-gray-500">7 interested</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-primary-600 font-semibold">35 pts</div>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <button class="text-gray-400 hover:text-gray-600">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-gray-400 hover:text-red-600">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 text-center">
+                                <a href="/items/create" class="inline-flex items-center px-4 py-2 border border-primary-600 text-primary-600 rounded-md hover:bg-primary-50 transition-colors">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Add New Item
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Active Swaps Tab -->
+                        <div id="swaps-tab" class="tab-content hidden">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-6">Active Swaps</h3>
+                            
+                            <div class="space-y-4">
+                                <!-- Swap Item 1 -->
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <h4 class="font-medium text-gray-900">Swap with Emma Wilson</h4>
+                                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">In Progress</span>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <p class="text-sm text-gray-600 mb-2">You're giving:</p>
+                                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                                <div class="w-12 h-12 bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg flex items-center justify-center">
+                                                    <i class="fas fa-tshirt text-gray-400"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium text-gray-900">Vintage Denim Jacket</p>
+                                                    <p class="text-sm text-gray-600">Size M</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div>
+                                            <p class="text-sm text-gray-600 mb-2">You're getting:</p>
+                                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                                <div class="w-12 h-12 bg-gradient-to-br from-green-100 to-blue-100 rounded-lg flex items-center justify-center">
+                                                    <i class="fas fa-female text-gray-400"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium text-gray-900">Bohemian Maxi Dress</p>
+                                                    <p class="text-sm text-gray-600">Size M</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
+                                        <div class="text-sm text-gray-600">
+                                            <i class="fas fa-clock mr-1"></i>
+                                            Started 2 days ago
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-md text-sm transition-colors">
+                                                Message
+                                            </button>
+                                            <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-md text-sm transition-colors">
+                                                Confirm Swap
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Swap Item 2 -->
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <h4 class="font-medium text-gray-900">Swap with Mike Chen</h4>
+                                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Waiting</span>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <p class="text-sm text-gray-600 mb-2">You're giving:</p>
+                                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                                <div class="w-12 h-12 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center">
+                                                    <i class="fas fa-shoe-prints text-gray-400"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium text-gray-900">Designer Sneakers</p>
+                                                    <p class="text-sm text-gray-600">Size 8</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div>
+                                            <p class="text-sm text-gray-600 mb-2">You're getting:</p>
+                                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                                <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
+                                                    <i class="fas fa-running text-gray-400"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium text-gray-900">Athletic Shoes</p>
+                                                    <p class="text-sm text-gray-600">Size 8</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
+                                        <div class="text-sm text-gray-600">
+                                            <i class="fas fa-clock mr-1"></i>
+                                            Proposed 1 day ago
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-md text-sm transition-colors">
+                                                Decline
+                                            </button>
+                                            <button class="bg-primary-600 hover:bg-primary-700 text-white px-3 py-1 rounded-md text-sm transition-colors">
+                                                Accept
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- History Tab -->
+                        <div id="history-tab" class="tab-content hidden">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-6">Transaction History</h3>
+                            
+                            <div class="space-y-4">
+                                <!-- History Item 1 -->
+                                <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg">
+                                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-900">Completed swap</h4>
+                                        <p class="text-sm text-gray-600">Traded "Black Leather Jacket" with Sarah for "Winter Coat"</p>
+                                        <p class="text-xs text-gray-500">3 days ago</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-green-600 font-medium">+15 pts</span>
+                                    </div>
+                                </div>
+
+                                <!-- History Item 2 -->
+                                <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg">
+                                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-coins text-yellow-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-900">Points redemption</h4>
+                                        <p class="text-sm text-gray-600">Redeemed "Vintage Band T-Shirt" for 20 points</p>
+                                        <p class="text-xs text-gray-500">1 week ago</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-red-600 font-medium">-20 pts</span>
+                                    </div>
+                                </div>
+
+                                <!-- History Item 3 -->
+                                <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-plus text-blue-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-900">Item listed</h4>
+                                        <p class="text-sm text-gray-600">Listed "Summer Floral Dress" for swap/points</p>
+                                        <p class="text-xs text-gray-500">2 weeks ago</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-green-600 font-medium">+5 pts</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Favorites Tab -->
+                        <div id="favorites-tab" class="tab-content hidden">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-6">Favorite Items</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Favorite Item 1 -->
+                                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                    <div class="flex items-start space-x-3">
+                                        <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-vest text-2xl text-gray-400"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-medium text-gray-900">Vintage Leather Jacket</h4>
+                                            <p class="text-sm text-gray-600">Size L • Like New</p>
+                                            <p class="text-primary-600 font-semibold mt-1">45 pts</p>
+                                            <div class="flex items-center justify-between mt-2">
+                                                <span class="text-xs text-gray-500">by @alexsmith</span>
+                                                <div class="flex space-x-2">
+                                                    <button class="text-red-500 hover:text-red-600">
+                                                        <i class="fas fa-heart"></i>
+                                                    </button>
+                                                    <a href="/items/10" class="text-primary-600 hover:text-primary-700 text-sm">View</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Favorite Item 2 -->
+                                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                    <div class="flex items-start space-x-3">
+                                        <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-blue-100 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-female text-2xl text-gray-400"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-medium text-gray-900">Bohemian Maxi Dress</h4>
+                                            <p class="text-sm text-gray-600">Size M • Excellent</p>
+                                            <p class="text-primary-600 font-semibold mt-1">28 pts</p>
+                                            <div class="flex items-center justify-between mt-2">
+                                                <span class="text-xs text-gray-500">by @emmawilson</span>
+                                                <div class="flex space-x-2">
+                                                    <button class="text-red-500 hover:text-red-600">
+                                                        <i class="fas fa-heart"></i>
+                                                    </button>
+                                                    <a href="/items/11" class="text-primary-600 hover:text-primary-700 text-sm">View</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <a href="/items/create" class="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                            <i class="fas fa-plus text-primary-600 mr-3"></i>
+                            <span>Add New Item</span>
+                        </a>
+                        <a href="/browse" class="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                            <i class="fas fa-search text-green-600 mr-3"></i>
+                            <span>Browse Items</span>
+                        </a>
+                        <a href="/points/transfer" class="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                            <i class="fas fa-paper-plane text-yellow-600 mr-3"></i>
+                            <span>Transfer Points</span>
+                        </a>
+                        <a href="/notifications" class="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                            <i class="fas fa-bell text-red-600 mr-3"></i>
+                            <span>Notifications</span>
+                            <span class="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-1">3</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-heart text-green-600 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-800">Someone liked your "Vintage Denim Jacket"</p>
+                                <p class="text-xs text-gray-500">2 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-exchange-alt text-blue-600 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-800">New swap proposal received</p>
+                                <p class="text-xs text-gray-500">4 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-coins text-yellow-600 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-800">Earned 5 points for listing item</p>
+                                <p class="text-xs text-gray-500">1 day ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Completion -->
+                <div class="bg-gradient-to-r from-primary-600 to-blue-600 rounded-lg p-6 text-white">
+                    <h3 class="text-lg font-semibold mb-2">Complete Your Profile</h3>
+                    <p class="text-primary-100 text-sm mb-4">
+                        Add a profile photo and bio to increase trust with other members.
+                    </p>
+                    <div class="w-full bg-primary-400 rounded-full h-2 mb-3">
+                        <div class="bg-white h-2 rounded-full" style="width: 75%"></div>
+                    </div>
+                    <p class="text-sm text-primary-100 mb-3">75% complete</p>
+                    <a href="/profile/edit" class="inline-block bg-white text-primary-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors">
+                        Complete Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', () => {
+        const tabId = button.getAttribute('data-tab');
+        
+        // Remove active class from all tabs and buttons
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            btn.classList.remove('active', 'border-primary-600', 'text-primary-600');
+            btn.classList.add('border-transparent', 'text-gray-500');
+        });
+        
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.add('hidden');
+        });
+        
+        // Add active class to clicked button and show corresponding content
+        button.classList.add('active', 'border-primary-600', 'text-primary-600');
+        button.classList.remove('border-transparent', 'text-gray-500');
+        
+        document.getElementById(tabId + '-tab').classList.remove('hidden');
+    });
+});
+</script>
+` %>
+
+<%- include('../shared/layout', { body: content }) %>

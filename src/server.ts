@@ -3,6 +3,9 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import session from 'express-session';
+import flash from 'connect-flash';
+import methodOverride from 'method-override';
 import path from 'path';
 
 import { config } from './config/env';
@@ -20,7 +23,28 @@ import notificationRoutes from './routes/notifications';
 import adminRoutes from './routes/admin';
 import healthRoutes from './routes/health';
 
+// Import frontend routes
+import frontendRoutes from './routes/frontend';
+
 const app = express();
+
+// View engine setup
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../views'));
+
+// Session middleware
+app.use(session({
+  secret: config.jwtSecret || 'rewear-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set to true in production with HTTPS
+}));
+
+// Flash messages
+app.use(flash());
+
+// Method override for DELETE/PUT in forms
+app.use(methodOverride('_method'));
 
 // Security middleware
 app.use(helmet());
@@ -45,6 +69,21 @@ app.use(express.urlencoded({ extended: true }));
 
 // Static file serving for uploads
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Global middleware for flash messages and user session
+app.use((req: any, res: any, next: any) => {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.session?.user || null;
+  next();
+});
+
+// Frontend routes (must come before API routes)
+app.use('/', frontendRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

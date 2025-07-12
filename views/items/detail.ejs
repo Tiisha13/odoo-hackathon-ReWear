@@ -1,0 +1,416 @@
+<% const content = `
+<div class="bg-gray-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Breadcrumb -->
+        <nav class="flex mb-8" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="/" class="text-gray-700 hover:text-primary-600">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <a href="/browse" class="text-gray-700 hover:text-primary-600">Browse Items</a>
+                    </div>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <span class="text-gray-500">Vintage Denim Jacket</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Image Gallery -->
+            <div class="space-y-4">
+                <!-- Main Image -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="aspect-square bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center">
+                        <i class="fas fa-tshirt text-8xl text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <!-- Thumbnail Gallery -->
+                <div class="grid grid-cols-4 gap-2">
+                    <div class="aspect-square bg-gradient-to-br from-pink-100 to-purple-100 rounded-md flex items-center justify-center border-2 border-primary-500">
+                        <i class="fas fa-tshirt text-2xl text-gray-400"></i>
+                    </div>
+                    <div class="aspect-square bg-gradient-to-br from-pink-200 to-purple-200 rounded-md flex items-center justify-center cursor-pointer hover:border-2 hover:border-primary-300">
+                        <i class="fas fa-tshirt text-2xl text-gray-400"></i>
+                    </div>
+                    <div class="aspect-square bg-gradient-to-br from-pink-200 to-purple-200 rounded-md flex items-center justify-center cursor-pointer hover:border-2 hover:border-primary-300">
+                        <i class="fas fa-tshirt text-2xl text-gray-400"></i>
+                    </div>
+                    <div class="aspect-square bg-gradient-to-br from-pink-200 to-purple-200 rounded-md flex items-center justify-center cursor-pointer hover:border-2 hover:border-primary-300">
+                        <i class="fas fa-plus text-2xl text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item Details -->
+            <div class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <!-- Header -->
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900 mb-2">Vintage Denim Jacket</h1>
+                            <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                <span class="flex items-center">
+                                    <i class="fas fa-tag mr-1"></i>
+                                    Outerwear
+                                </span>
+                                <span class="flex items-center">
+                                    <i class="fas fa-ruler mr-1"></i>
+                                    Size M
+                                </span>
+                                <span class="flex items-center">
+                                    <i class="fas fa-star mr-1"></i>
+                                    Like New
+                                </span>
+                            </div>
+                        </div>
+                        <button class="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            <i class="fas fa-heart text-red-500 text-xl"></i>
+                        </button>
+                    </div>
+
+                    <!-- Status Badge -->
+                    <div class="flex items-center space-x-2 mb-6">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-check-circle mr-1"></i>
+                            Available
+                        </span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-exchange-alt mr-1"></i>
+                            Swap Available
+                        </span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-coins mr-1"></i>
+                            Points Available
+                        </span>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="bg-primary-50 rounded-lg p-4 mb-6">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-primary-600 mb-2">25 Points</div>
+                            <p class="text-gray-600 text-sm">Or propose a swap with one of your items</p>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <button class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center">
+                            <i class="fas fa-coins mr-2"></i>
+                            Redeem with Points
+                        </button>
+                        <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center">
+                            <i class="fas fa-exchange-alt mr-2"></i>
+                            Propose Swap
+                        </button>
+                    </div>
+
+                    <!-- Contact Seller -->
+                    <button class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center">
+                        <i class="fas fa-comment mr-2"></i>
+                        Contact Seller
+                    </button>
+                </div>
+
+                <!-- Seller Information -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Seller Information</h2>
+                    
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img class="h-12 w-12 rounded-full object-cover" src="/uploads/avatars/default.png" alt="Sarah">
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Sarah Johnson</h3>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <div class="flex text-yellow-400 mr-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>4.9 (47 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <span class="text-gray-600">Member since:</span>
+                            <div class="font-medium">January 2024</div>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Total swaps:</span>
+                            <div class="font-medium">23 completed</div>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Location:</span>
+                            <div class="font-medium flex items-center">
+                                <i class="fas fa-map-marker-alt mr-1 text-gray-400"></i>
+                                San Francisco, CA
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Response time:</span>
+                            <div class="font-medium">Usually within 2 hours</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item Description and Details -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Description -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Description</h2>
+                    <div class="prose prose-sm max-w-none">
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            This classic vintage denim jacket is a timeless piece that never goes out of style. 
+                            Featuring a beautiful blue wash with subtle fading that gives it authentic vintage character. 
+                            The jacket has been well-maintained and is in excellent condition.
+                        </p>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            Perfect for layering over t-shirts, dresses, or sweaters. The fit is classic and true to size. 
+                            All buttons are intact and functional. No stains, tears, or significant wear marks.
+                        </p>
+                        <p class="text-gray-700 leading-relaxed">
+                            Originally purchased from a vintage boutique in San Francisco. Ready to find its next loving home!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item Specifications -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Item Details</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-medium text-gray-900 mb-3">Basic Information</h3>
+                            <dl class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <dt class="text-gray-600">Brand:</dt>
+                                    <dd class="font-medium">Vintage Brand</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-gray-600">Size:</dt>
+                                    <dd class="font-medium">Medium</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-gray-600">Color:</dt>
+                                    <dd class="font-medium">Blue Denim</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-gray-600">Material:</dt>
+                                    <dd class="font-medium">100% Cotton</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-gray-600">Season:</dt>
+                                    <dd class="font-medium">All Season</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-medium text-gray-900 mb-3">Condition & Care</h3>
+                            <dl class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <dt class="text-gray-600">Condition:</dt>
+                                    <dd class="font-medium">Like New</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-gray-600">Worn:</dt>
+                                    <dd class="font-medium">5-10 times</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-gray-600">Care:</dt>
+                                    <dd class="font-medium">Machine wash cold</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-gray-600">Pet-free:</dt>
+                                    <dd class="font-medium">Yes</dd>
+                                </div>
+                                <div class="flex justify-between">
+                                    <dt class="text-gray-600">Smoke-free:</dt>
+                                    <dd class="font-medium">Yes</dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Safety Tips -->
+                <div class="bg-blue-50 rounded-lg p-6">
+                    <h3 class="font-semibold text-blue-900 mb-3 flex items-center">
+                        <i class="fas fa-shield-alt mr-2"></i>
+                        Safety Tips
+                    </h3>
+                    <ul class="text-sm text-blue-800 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle mr-2 text-blue-600 mt-0.5 flex-shrink-0"></i>
+                            Meet in public places for exchanges
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle mr-2 text-blue-600 mt-0.5 flex-shrink-0"></i>
+                            Inspect items before finalizing swap
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle mr-2 text-blue-600 mt-0.5 flex-shrink-0"></i>
+                            Use ReWear's messaging system
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle mr-2 text-blue-600 mt-0.5 flex-shrink-0"></i>
+                            Report any suspicious activity
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Similar Items -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="font-semibold text-gray-900 mb-4">Similar Items</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-green-100 rounded-md flex items-center justify-center">
+                                <i class="fas fa-tshirt text-2xl text-gray-400"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900 text-sm">Blue Denim Shirt</h4>
+                                <p class="text-gray-600 text-xs">Size L • 20 pts</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-md flex items-center justify-center">
+                                <i class="fas fa-vest text-2xl text-gray-400"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900 text-sm">Vintage Vest</h4>
+                                <p class="text-gray-600 text-xs">Size M • 18 pts</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="w-16 h-16 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-md flex items-center justify-center">
+                                <i class="fas fa-tshirt text-2xl text-gray-400"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900 text-sm">Casual Blazer</h4>
+                                <p class="text-gray-600 text-xs">Size S • 30 pts</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="/browse?category=outerwear" class="block text-center mt-4 text-primary-600 hover:text-primary-700 text-sm font-medium">
+                        View More Similar Items
+                    </a>
+                </div>
+
+                <!-- Share -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="font-semibold text-gray-900 mb-4">Share this Item</h3>
+                    
+                    <div class="flex space-x-3">
+                        <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-md transition-colors">
+                            <i class="fab fa-facebook"></i>
+                        </button>
+                        <button class="flex-1 bg-sky-500 hover:bg-sky-600 text-white p-2 rounded-md transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button class="flex-1 bg-pink-600 hover:bg-pink-700 text-white p-2 rounded-md transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </button>
+                        <button class="flex-1 bg-gray-600 hover:bg-gray-700 text-white p-2 rounded-md transition-colors">
+                            <i class="fas fa-link"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Items -->
+        <div class="mt-12">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">More from this Seller</h2>
+                <p class="text-gray-600">Check out other amazing items from Sarah Johnson</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Related Item 1 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="h-48 bg-gradient-to-br from-green-100 to-blue-100 flex items-center justify-center">
+                        <i class="fas fa-female text-4xl text-gray-400"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-900 mb-1">Summer Dress</h3>
+                        <p class="text-gray-600 text-sm mb-2">Size S • Good condition</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary-600 font-semibold">18 pts</span>
+                            <a href="/items/2" class="text-primary-600 hover:text-primary-700 text-sm">View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Item 2 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="h-48 bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
+                        <i class="fas fa-hat-cowboy text-4xl text-gray-400"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-900 mb-1">Vintage Hat</h3>
+                        <p class="text-gray-600 text-sm mb-2">One Size • Excellent</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary-600 font-semibold">12 pts</span>
+                            <a href="/items/7" class="text-primary-600 hover:text-primary-700 text-sm">View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Item 3 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="h-48 bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center">
+                        <i class="fas fa-gem text-4xl text-gray-400"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-900 mb-1">Gold Necklace</h3>
+                        <p class="text-gray-600 text-sm mb-2">One Size • Like New</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary-600 font-semibold">35 pts</span>
+                            <a href="/items/8" class="text-primary-600 hover:text-primary-700 text-sm">View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Item 4 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="h-48 bg-gradient-to-br from-red-100 to-pink-100 flex items-center justify-center">
+                        <i class="fas fa-shoe-prints text-4xl text-gray-400"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-900 mb-1">Red Heels</h3>
+                        <p class="text-gray-600 text-sm mb-2">Size 7 • Good</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary-600 font-semibold">22 pts</span>
+                            <a href="/items/9" class="text-primary-600 hover:text-primary-700 text-sm">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+` %>
+
+<%- include('../shared/layout', { body: content }) %>
