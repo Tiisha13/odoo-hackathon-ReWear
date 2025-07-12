@@ -12,7 +12,7 @@ const users = [
     password: 'password123',
     location: 'New York',
     role: 'user',
-    points: 150
+    points: 150,
   },
   {
     name: 'Bob Smith',
@@ -20,7 +20,7 @@ const users = [
     password: 'password123',
     location: 'Los Angeles',
     role: 'user',
-    points: 200
+    points: 200,
   },
   {
     name: 'Carol Davis',
@@ -28,7 +28,7 @@ const users = [
     password: 'password123',
     location: 'Chicago',
     role: 'user',
-    points: 75
+    points: 75,
   },
   {
     name: 'Admin User',
@@ -36,19 +36,20 @@ const users = [
     password: 'admin123',
     location: 'San Francisco',
     role: 'admin',
-    points: 500
-  }
+    points: 500,
+  },
 ];
 
 const items = [
   {
-    title: 'Vintage Levi\'s Denim Jacket',
-    description: 'Classic vintage Levi\'s denim jacket in excellent condition. Perfect for layering.',
+    title: "Vintage Levi's Denim Jacket",
+    description:
+      "Classic vintage Levi's denim jacket in excellent condition. Perfect for layering.",
     category: 'Jackets',
     size: 'M',
     condition: 'excellent',
-    brand: 'Levi\'s',
-    isApproved: true
+    brand: "Levi's",
+    isApproved: true,
   },
   {
     title: 'Black Wool Sweater',
@@ -57,7 +58,7 @@ const items = [
     size: 'L',
     condition: 'good',
     brand: 'Uniqlo',
-    isApproved: true
+    isApproved: true,
   },
   {
     title: 'Summer Floral Dress',
@@ -66,7 +67,7 @@ const items = [
     size: 'S',
     condition: 'excellent',
     brand: 'Zara',
-    isApproved: false
+    isApproved: false,
   },
   {
     title: 'Nike Running Shoes',
@@ -75,7 +76,7 @@ const items = [
     size: '9',
     condition: 'good',
     brand: 'Nike',
-    isApproved: true
+    isApproved: true,
   },
   {
     title: 'Leather Handbag',
@@ -84,8 +85,8 @@ const items = [
     size: 'One Size',
     condition: 'excellent',
     brand: 'Coach',
-    isApproved: false
-  }
+    isApproved: false,
+  },
 ];
 
 async function seedDatabase() {
@@ -101,12 +102,12 @@ async function seedDatabase() {
     console.log('Cleared existing data');
 
     // Create users
-    const createdUsers = [];
+    const createdUsers: any[] = [];
     for (const userData of users) {
       const hashedPassword = await bcrypt.hash(userData.password, 12);
       const user = new User({
         ...userData,
-        password: hashedPassword
+        password: hashedPassword,
       });
       await user.save();
       createdUsers.push(user);
@@ -117,23 +118,24 @@ async function seedDatabase() {
     for (let i = 0; i < items.length; i++) {
       const itemData = items[i];
       const randomOwner = createdUsers[Math.floor(Math.random() * (createdUsers.length - 1))]; // Exclude admin
-      
+
       const item = new Item({
         ...itemData,
-        owner: randomOwner._id
+        owner: randomOwner._id,
       });
       await item.save();
       console.log(`Created item: ${item.title}`);
     }
 
     // Create some point transactions
-    for (const user of createdUsers.slice(0, 3)) { // Exclude admin
+    for (const user of createdUsers.slice(0, 3)) {
+      // Exclude admin
       // Item upload points
       const uploadTransaction = new PointsTransaction({
         userId: user._id,
         type: 'earn',
         points: 10,
-        description: 'Points earned for uploading an item'
+        description: 'Points earned for uploading an item',
       });
       await uploadTransaction.save();
 
@@ -142,7 +144,7 @@ async function seedDatabase() {
         userId: user._id,
         type: 'earn',
         points: 5,
-        description: 'Points earned for completing profile'
+        description: 'Points earned for completing profile',
       });
       await profileTransaction.save();
 
@@ -164,7 +166,6 @@ Test Accounts:
 
 You can now test the API with these accounts!
     `);
-
   } catch (error) {
     console.error('Seeding failed:', error);
   } finally {

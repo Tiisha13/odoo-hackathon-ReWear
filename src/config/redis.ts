@@ -13,11 +13,11 @@ export class RedisClient {
       },
       database: config.redis.db,
     };
-    
+
     if (config.redis.password) {
       redisOptions.password = config.redis.password;
     }
-    
+
     this.client = createClient(redisOptions);
 
     this.client.on('error', (err) => {

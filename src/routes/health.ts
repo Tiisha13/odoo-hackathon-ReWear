@@ -14,8 +14,8 @@ router.get('/health', async (req, res) => {
       version: process.env.npm_package_version || '1.0.0',
       services: {
         database: 'Unknown',
-        redis: 'Unknown'
-      }
+        redis: 'Unknown',
+      },
     };
 
     // Check MongoDB connection
@@ -46,7 +46,7 @@ router.get('/health', async (req, res) => {
     res.status(500).json({
       status: 'Error',
       message: 'Health check failed',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     });
   }
 });
